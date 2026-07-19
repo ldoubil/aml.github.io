@@ -11,10 +11,11 @@ import shotAccounts from '../assets/截图/账号-支持类型.png';
 import shotBackup from '../assets/截图/世界备份.png';
 import shotSkins from '../assets/截图/皮肤库.png';
 import shotInstanceHome from '../assets/截图/实例主页.png';
+import shotLexicon from '../assets/截图/向量字典.png';
 
 const isHome = Astro.locals.starlightRoute.id === '' || Astro.locals.starlightRoute.id === '/';
 
-const pillars = ['实例', '存档', '预览', '发现', '启动', '多用户', '备份', '皮肤'];
+const pillars = ['实例', '存档', '预览', '发现', '中文搜', '启动', '多用户', '备份', '皮肤'];
 
 const features = [
 	{
@@ -54,7 +55,17 @@ const features = [
 		alt: 'AML 发现页：模组搜索与安装',
 	},
 	{
-		eyebrow: '05 · 启动',
+		eyebrow: '05 · 中文搜',
+		title: '自己的词库，越用越懂中文',
+		body: '浏览发现页时沉淀原名↔译名；中文查询先查本地词库与向量，再合并源站结果。设置里还能看向量投影。',
+		points: ['中文映射英文原名', '本地向量语义召回', '词库向量可视化'],
+		accent: '#2dd4bf',
+		image: shotLexicon,
+		alt: 'AML 词库向量：本地向量 PCA 投影',
+		href: '/guides/chinese-search/',
+	},
+	{
+		eyebrow: '06 · 启动',
 		title: '继续游玩，少点几步',
 		body: '首页「继续游玩」回到最近实例；实例页一键启动；世界与服务器行也可直接开始游戏。',
 		points: ['首页继续游玩', '实例页一键启动', '存档 / 服务器旁直接开玩'],
@@ -63,7 +74,7 @@ const features = [
 		alt: 'AML 首页：继续游玩与开始游戏',
 	},
 	{
-		eyebrow: '06 · 多用户',
+		eyebrow: '07 · 多用户',
 		title: '一台机器，多套身份',
 		body: '微软账号、离线账号与 Yggdrasil 外置账号可以并存。随时切换当前账号后再启动。',
 		points: ['微软 / 离线 / 外置登录', '列表切换当前账号', '添加账号入口集中'],
@@ -72,7 +83,7 @@ const features = [
 		alt: 'AML 账号管理：多种登录方式',
 	},
 	{
-		eyebrow: '07 · 备份',
+		eyebrow: '08 · 备份',
 		title: '存档坏了，还能回溯',
 		body: '世界备份列表支持手动备份与自动备份。点选查看，需要时一键回溯，长按可删。',
 		points: ['完整备份与体积一目了然', '手动 / 自动备份标记', '回溯恢复省心'],
@@ -81,7 +92,7 @@ const features = [
 		alt: 'AML 世界备份列表与回溯',
 	},
 	{
-		eyebrow: '08 · 皮肤',
+		eyebrow: '09 · 皮肤',
 		title: '浏览皮肤，装到账号上',
 		body: '皮肤库对接 MineSkin 公开皮肤。选中后看 3D 预览，下载 PNG，或直接应用到所选正版账号。',
 		points: ['搜索与分页浏览', '经典模型预览', '应用到指定正版账号'],
@@ -122,7 +133,7 @@ const playWays = [
 						<div class="aml-cta">
 							<a
 								class="aml-btn aml-btn-primary"
-								href="https://qm.qq.com/q/Jn82YQhraK"
+								href="https://qm.qq.com/q/CQmQFf9RyC"
 								data-aml-qq-group
 							>
 								加群测试
@@ -161,7 +172,7 @@ const playWays = [
 				<div class="aml-showcase-intro aml-reveal">
 					<p class="aml-showcase-kicker">为什么是 AML</p>
 					<h2>不只是点一下「启动」</h2>
-					<p class="aml-showcase-lead">实例、存档、预览、发现、启动、多用户、备份与皮肤——下面用真实界面说明。</p>
+					<p class="aml-showcase-lead">实例、存档、预览、发现、中文搜、启动、多用户、备份与皮肤——下面用真实界面说明。</p>
 				</div>
 
 				{features.map((feature, index) => (
@@ -178,6 +189,11 @@ const playWays = [
 									<li>{point}</li>
 								))}
 							</ul>
+							{'href' in feature && feature.href ? (
+								<p class="aml-feature-more">
+									<a href={feature.href}>了解中文搜索与向量词库</a>
+								</p>
+							) : null}
 						</div>
 						<div class="aml-feature-shot">
 							<figure class="aml-shot-frame">
@@ -215,11 +231,11 @@ const playWays = [
 					<p class="aml-showcase-kicker">一起玩</p>
 					<h2>加入交流群</h2>
 					<p>反馈问题、聊启动器、分享整合包——欢迎进群。</p>
-					<p class="aml-community-meta">QQ 群号 <code>808169040</code></p>
+					<p class="aml-community-meta">QQ 群号 <code>962703127</code></p>
 					<div class="aml-cta">
 						<a
 							class="aml-btn aml-btn-primary"
-							href="https://qm.qq.com/q/Jn82YQhraK"
+							href="https://qm.qq.com/q/CQmQFf9RyC"
 							data-aml-qq-group
 						>
 							一键加群
@@ -233,7 +249,7 @@ const playWays = [
 					<div class="aml-cta">
 						<a
 							class="aml-btn aml-btn-primary"
-							href="https://qm.qq.com/q/Jn82YQhraK"
+							href="https://qm.qq.com/q/CQmQFf9RyC"
 							data-aml-qq-group
 						>
 							加群测试
@@ -678,6 +694,22 @@ const playWays = [
 		border-radius: 50%;
 		background: var(--feature-accent);
 		box-shadow: 0 0 10px color-mix(in srgb, var(--feature-accent) 55%, transparent);
+	}
+
+	.aml-feature-more {
+		margin: 1rem 0 0;
+	}
+
+	.aml-feature-more a {
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: var(--feature-accent);
+		text-decoration: none;
+		border-bottom: 1px solid color-mix(in srgb, var(--feature-accent) 45%, transparent);
+	}
+
+	.aml-feature-more a:hover {
+		border-bottom-color: var(--feature-accent);
 	}
 
 	.aml-feature-shot {

@@ -68,6 +68,11 @@ export default defineConfig({
 							translations: { 'zh-CN': '快速开始' },
 							slug: 'guides/getting-started',
 						},
+						{
+							label: 'Chinese search',
+							translations: { 'zh-CN': '中文搜索与向量词库' },
+							slug: 'guides/chinese-search',
+						},
 					],
 				},
 			],
