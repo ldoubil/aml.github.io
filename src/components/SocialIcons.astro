@@ -1,0 +1,150 @@
+---
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const links = [
+	{ href: '/', label: '首页', icon: 'home' },
+	{
+		href: 'https://qm.qq.com/q/Jn82YQhraK',
+		label: '加群测试',
+		icon: 'group',
+		external: true,
+	},
+	{ href: '/guides/getting-started/', label: '快速开始', icon: 'docs' },
+];
+
+function isCurrent(href: string) {
+	const normalized = href.replace(/\/$/, '') || '/';
+	if (normalized === '/') return pathname === '/';
+	if (href.startsWith('http')) return false;
+	return pathname === normalized || pathname.startsWith(`${normalized}/`) || pathname === normalized;
+}
+---
+
+<nav class="aml-topnav" aria-label="站点导航">
+	{
+		links.map((link) => (
+			<a
+				href={link.href}
+				class:list={['aml-topnav-link', { active: isCurrent(link.href) }]}
+				aria-current={isCurrent(link.href) ? 'page' : undefined}
+				data-aml-qq-group={link.external ? '' : undefined}
+			>
+				<span class="aml-topnav-icon" data-icon={link.icon} aria-hidden="true" />
+				<span class="aml-topnav-label">{link.label}</span>
+			</a>
+		))
+	}
+</nav>
+
+<span class="aml-topnav-divider" aria-hidden="true" />
+
+<div class="aml-topnav-social">
+	<Default>
+		<slot />
+	</Default>
+</div>
+
+<style>
+	.aml-topnav {
+		display: flex;
+		align-items: center;
+		gap: 0.15rem;
+		padding: 0.2rem;
+		border-radius: 999px;
+		background: color-mix(in srgb, white 6%, transparent);
+		border: 1px solid color-mix(in srgb, white 8%, transparent);
+	}
+
+	.aml-topnav-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.38rem 0.7rem;
+		border-radius: 999px;
+		color: var(--sl-color-gray-2);
+		text-decoration: none;
+		font-size: 0.84rem;
+		font-weight: 600;
+		line-height: 1;
+		white-space: nowrap;
+		transition:
+			color 0.15s ease,
+			background 0.15s ease;
+	}
+
+	.aml-topnav-link:hover {
+		color: var(--sl-color-white);
+		background: color-mix(in srgb, white 8%, transparent);
+	}
+
+	.aml-topnav-link.active {
+		color: #04140c;
+		background: linear-gradient(180deg, #5cf0a0, #3ddc84);
+	}
+
+	.aml-topnav-icon {
+		width: 0.92rem;
+		height: 0.92rem;
+		display: inline-block;
+		background: currentColor;
+		mask-size: contain;
+		mask-repeat: no-repeat;
+		mask-position: center;
+		-webkit-mask-size: contain;
+		-webkit-mask-repeat: no-repeat;
+		-webkit-mask-position: center;
+		flex-shrink: 0;
+	}
+
+	.aml-topnav-icon[data-icon='home'] {
+		mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10.5 12 3l9 7.5'/%3E%3Cpath d='M5 9.5V21h14V9.5'/%3E%3C/svg%3E");
+		-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10.5 12 3l9 7.5'/%3E%3Cpath d='M5 9.5V21h14V9.5'/%3E%3C/svg%3E");
+	}
+
+	.aml-topnav-icon[data-icon='download'] {
+		mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3Cpath d='M5 21h14'/%3E%3C/svg%3E");
+		-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12'/%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3Cpath d='M5 21h14'/%3E%3C/svg%3E");
+	}
+
+	.aml-topnav-icon[data-icon='docs'] {
+		mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E");
+		-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E");
+	}
+
+	.aml-topnav-icon[data-icon='group'] {
+		mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+		-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M22 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
+	}
+
+	.aml-topnav-divider {
+		width: 1px;
+		height: 1.15rem;
+		margin-inline: 0.55rem;
+		background: color-mix(in srgb, white 14%, transparent);
+	}
+
+	.aml-topnav-social {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	@media (max-width: 72rem) {
+		.aml-topnav-label {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border: 0;
+		}
+
+		.aml-topnav-link {
+			padding: 0.42rem;
+		}
+	}
+</style>

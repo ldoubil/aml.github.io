@@ -1,0 +1,933 @@
+---
+import Default from '@astrojs/starlight/components/Hero.astro';
+import { Image } from 'astro:assets';
+
+import shotInstance from '../assets/截图/实例.png';
+import shotSaves from '../assets/截图/快速运行.png';
+import shotPreview from '../assets/截图/世界预览.png';
+import shotDiscover from '../assets/截图/发现.png';
+import shotLaunch from '../assets/截图/主页.png';
+import shotAccounts from '../assets/截图/账号-支持类型.png';
+import shotBackup from '../assets/截图/世界备份.png';
+import shotSkins from '../assets/截图/皮肤库.png';
+import shotInstanceHome from '../assets/截图/实例主页.png';
+
+const isHome = Astro.locals.starlightRoute.id === '' || Astro.locals.starlightRoute.id === '/';
+
+const pillars = ['实例', '存档', '预览', '发现', '启动', '多用户', '备份', '皮肤'];
+
+const features = [
+	{
+		eyebrow: '01 · 实例',
+		title: '把每一次开荒都收成档案',
+		body: '按版本分组、搜索与排序，一眼看清加载器与最近游玩。支持导入 mrpack、CurseForge、MCBBS、MultiMC；导出可选 mrpack、MultiMC、MCBBS，并按需勾选模组、配置与存档。',
+		points: ['全部 / 自定义筛选', '导入四种常见整合包格式', '导出 mrpack / MultiMC / MCBBS'],
+		accent: '#3ddc84',
+		image: shotInstance,
+		alt: 'AML 实例库：按游戏版本分组的实例列表',
+	},
+	{
+		eyebrow: '02 · 存档',
+		title: '世界与服务器放在一起',
+		body: '实例里的「世界」页汇总单机存档与服务器列表。搜索、筛选，需要时直接开玩或去备份与管理。',
+		points: ['单人 / 服务器一处查看', '添加服务器与刷新状态', '备份入口就在存档旁'],
+		accent: '#5b9fff',
+		image: shotSaves,
+		alt: 'AML 世界页：单机存档与服务器列表',
+	},
+	{
+		eyebrow: '03 · 预览',
+		title: '开进世界前，先看一眼地图',
+		body: '世界详情提供流式俯视地图预览，可拖动平移、滚轮缩放。截图轮播与游玩数据，也在实例概览里随时可看。',
+		points: ['地图预览缩放平移', '实例概览最近截图', '游玩数据一目了然'],
+		accent: '#a78bfa',
+		image: shotPreview,
+		alt: 'AML 世界地图预览',
+	},
+	{
+		eyebrow: '04 · 发现',
+		title: '找到内容，立刻装上',
+		body: '整合包、模组、资源包、数据包与着色器分栏浏览。加载器、版本与分类筛选项齐全，安装按钮就在结果旁。',
+		points: ['五类内容一站浏览', '筛选与分页跟得上搜索', '一键安装到目标实例'],
+		accent: '#38bdf8',
+		image: shotDiscover,
+		alt: 'AML 发现页：模组搜索与安装',
+	},
+	{
+		eyebrow: '05 · 启动',
+		title: '继续游玩，少点几步',
+		body: '首页「继续游玩」回到最近实例；实例页一键启动；世界与服务器行也可直接开始游戏。',
+		points: ['首页继续游玩', '实例页一键启动', '存档 / 服务器旁直接开玩'],
+		accent: '#ff9f43',
+		image: shotLaunch,
+		alt: 'AML 首页：继续游玩与开始游戏',
+	},
+	{
+		eyebrow: '06 · 多用户',
+		title: '一台机器，多套身份',
+		body: '微软账号、离线账号与 Yggdrasil 外置账号可以并存。随时切换当前账号后再启动。',
+		points: ['微软 / 离线 / 外置登录', '列表切换当前账号', '添加账号入口集中'],
+		accent: '#f472b6',
+		image: shotAccounts,
+		alt: 'AML 账号管理：多种登录方式',
+	},
+	{
+		eyebrow: '07 · 备份',
+		title: '存档坏了，还能回溯',
+		body: '世界备份列表支持手动备份与自动备份。点选查看，需要时一键回溯，长按可删。',
+		points: ['完整备份与体积一目了然', '手动 / 自动备份标记', '回溯恢复省心'],
+		accent: '#34d399',
+		image: shotBackup,
+		alt: 'AML 世界备份列表与回溯',
+	},
+	{
+		eyebrow: '08 · 皮肤',
+		title: '浏览皮肤，装到账号上',
+		body: '皮肤库对接 MineSkin 公开皮肤。选中后看 3D 预览，下载 PNG，或直接应用到所选正版账号。',
+		points: ['搜索与分页浏览', '经典模型预览', '应用到指定正版账号'],
+		accent: '#fb7185',
+		image: shotSkins,
+		alt: 'AML 皮肤库与账号应用',
+	},
+];
+
+const playWays = [
+	{ title: '继续游玩', body: '首页直接回到最近的实例。', image: shotLaunch },
+	{ title: '实例启动', body: '实例概览一键启动，旁有设置与分享。', image: shotInstanceHome },
+	{ title: '存档旁开玩', body: '世界或服务器行上的「开始游戏」。', image: shotSaves },
+	{ title: '地图预览后开', body: '看完地图，同一页直接开始游戏。', image: shotPreview },
+];
+---
+
+{
+	isHome ? (
+		<>
+			<div class="aml-fixed-bg" aria-hidden="true">
+				<div class="aml-fixed-base" />
+				<div class="aml-orb" data-orb="a" />
+				<div class="aml-orb" data-orb="b" />
+				<div class="aml-orb" data-orb="c" />
+				<div class="aml-orb" data-orb="d" />
+				<div class="aml-fixed-noise" />
+			</div>
+
+			<section class="aml-hero" data-aml-hero>
+				<div class="aml-hero-parallax" data-aml-parallax>
+					<div class="aml-hero-inner">
+						<p class="aml-kicker">Minecraft 启动器</p>
+						<h1 class="aml-title">
+							<span class="aml-title-brand">AML</span>
+						</h1>
+						<p class="aml-lead">熟悉的体验，全新的实现。源自 Modrinth 的交互语言，用 Flutter + Rust 重写。</p>
+						<div class="aml-cta">
+							<a
+								class="aml-btn aml-btn-primary"
+								href="https://qm.qq.com/q/Jn82YQhraK"
+								data-aml-qq-group
+							>
+								加群测试
+							</a>
+							<a class="aml-btn aml-btn-ghost" href="/guides/getting-started/">
+								快速开始
+							</a>
+						</div>
+					</div>
+				</div>
+				<a class="aml-scroll-cue" href="#features" aria-label="向下查看更多" data-aml-cue>
+					<span>向下滚动</span>
+					<span class="aml-scroll-arrow" aria-hidden="true" />
+				</a>
+			</section>
+
+			<section class="aml-pillars aml-reveal" aria-label="能力概览">
+				<p class="aml-pillars-label">发现 · 管理 · 开玩</p>
+				<ul class="aml-pillars-list">
+					{pillars.map((item) => (
+						<li>{item}</li>
+					))}
+				</ul>
+			</section>
+
+			<section class="aml-origin aml-reveal" aria-labelledby="aml-origin-title">
+				<p class="aml-showcase-kicker">从哪里来</p>
+				<h2 id="aml-origin-title">向 Modrinth 对齐手感，重新实现一遍</h2>
+				<p>
+					界面与加载逻辑刻意贴近 Modrinth App，但代码全部重写：Flutter
+					负责界面，Rust 负责安装与进程，只为把内存用得更省。
+				</p>
+			</section>
+
+			<section id="features" class="aml-showcase">
+				<div class="aml-showcase-intro aml-reveal">
+					<p class="aml-showcase-kicker">为什么是 AML</p>
+					<h2>不只是点一下「启动」</h2>
+					<p class="aml-showcase-lead">实例、存档、预览、发现、启动、多用户、备份与皮肤——下面用真实界面说明。</p>
+				</div>
+
+				{features.map((feature, index) => (
+					<article
+						class:list={['aml-feature-row', 'aml-reveal', { reverse: index % 2 === 1 }]}
+						style={`--feature-accent: ${feature.accent}`}
+					>
+						<div class="aml-feature-copy">
+							<p class="aml-feature-eyebrow">{feature.eyebrow}</p>
+							<h3>{feature.title}</h3>
+							<p>{feature.body}</p>
+							<ul class="aml-feature-points">
+								{feature.points.map((point) => (
+									<li>{point}</li>
+								))}
+							</ul>
+						</div>
+						<div class="aml-feature-shot">
+							<figure class="aml-shot-frame">
+								<Image
+									src={feature.image}
+									alt={feature.alt}
+									widths={[640, 960, 1280]}
+									sizes="(min-width: 56rem) 36rem, 92vw"
+									class="aml-shot-img"
+								/>
+							</figure>
+						</div>
+					</article>
+				))}
+
+				<section class="aml-playways aml-reveal">
+					<div class="aml-playways-intro">
+						<p class="aml-showcase-kicker">开玩路径</p>
+						<h2>同一套启动，多种入口</h2>
+					</div>
+					<ul class="aml-playways-grid">
+						{playWays.map((way) => (
+							<li>
+								<div class="aml-playway-shot">
+									<Image src={way.image} alt={way.title} widths={[480, 720]} sizes="20rem" />
+								</div>
+								<strong>{way.title}</strong>
+								<p>{way.body}</p>
+							</li>
+						))}
+					</ul>
+				</section>
+
+				<section class="aml-community aml-reveal">
+					<p class="aml-showcase-kicker">一起玩</p>
+					<h2>加入交流群</h2>
+					<p>反馈问题、聊启动器、分享整合包——欢迎进群。</p>
+					<p class="aml-community-meta">QQ 群号 <code>808169040</code></p>
+					<div class="aml-cta">
+						<a
+							class="aml-btn aml-btn-primary"
+							href="https://qm.qq.com/q/Jn82YQhraK"
+							data-aml-qq-group
+						>
+							一键加群
+						</a>
+					</div>
+				</section>
+
+				<div class="aml-finale aml-reveal">
+					<h2>准备好继续了吗？</h2>
+					<p>现在开放加群测试：同一套熟悉手感，换一套更省内存的实现。</p>
+					<div class="aml-cta">
+						<a
+							class="aml-btn aml-btn-primary"
+							href="https://qm.qq.com/q/Jn82YQhraK"
+							data-aml-qq-group
+						>
+							加群测试
+						</a>
+						<a class="aml-btn aml-btn-ghost" href="/guides/getting-started/">
+							快速开始
+						</a>
+					</div>
+				</div>
+			</section>
+		</>
+	) : (
+		<Default>
+			<slot />
+		</Default>
+	)
+}
+
+<script>
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	const nodes = document.querySelectorAll('.aml-reveal');
+	if (nodes.length && !reduceMotion) {
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-visible');
+						io.unobserve(entry.target);
+					}
+				}
+			},
+			{ threshold: 0.18, rootMargin: '0px 0px -6% 0px' },
+		);
+		nodes.forEach((node) => io.observe(node));
+	} else {
+		nodes.forEach((node) => node.classList.add('is-visible'));
+	}
+
+	const hero = document.querySelector('[data-aml-hero]');
+	const parallax = document.querySelector('[data-aml-parallax]');
+	const cue = document.querySelector('[data-aml-cue]');
+
+	const updateHeroScroll = () => {
+		if (!hero || !parallax) return;
+		const rect = hero.getBoundingClientRect();
+		const travel = Math.max(rect.height * 0.72, 1);
+		const progress = Math.min(1, Math.max(0, -rect.top / travel));
+		parallax.style.setProperty('--scroll', String(progress));
+		if (cue) cue.style.opacity = String(Math.max(0, 1 - progress * 1.6));
+	};
+
+	if (!reduceMotion) {
+		updateHeroScroll();
+		window.addEventListener('scroll', updateHeroScroll, { passive: true });
+		window.addEventListener('resize', updateHeroScroll);
+	} else if (parallax) {
+		parallax.style.setProperty('--scroll', '0');
+	}
+
+	const orbs = document.querySelectorAll('.aml-orb');
+	const wander = (orb) => {
+		const x = -20 + Math.random() * 120;
+		const y = -20 + Math.random() * 120;
+		const s = 0.75 + Math.random() * 0.7;
+		const duration = 10 + Math.random() * 12;
+		orb.style.transition = `transform ${duration}s cubic-bezier(0.4, 0, 0.2, 1)`;
+		orb.style.transform = `translate(${x}vw, ${y}vh) scale(${s})`;
+		window.setTimeout(() => wander(orb), duration * 1000);
+	};
+
+	if (!reduceMotion) {
+		orbs.forEach((orb, index) => {
+			const x = 10 + Math.random() * 70;
+			const y = 5 + Math.random() * 70;
+			orb.style.transform = `translate(${x}vw, ${y}vh) scale(1)`;
+			window.setTimeout(() => wander(orb), 200 + index * 400);
+		});
+	}
+</script>
+
+<style>
+	.aml-fixed-bg {
+		position: fixed;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.aml-fixed-base {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(180deg, #0b1220 0%, #111827 42%, #0a0f18 100%);
+	}
+
+	.aml-orb {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 42vmax;
+		height: 42vmax;
+		border-radius: 50%;
+		filter: blur(70px);
+		opacity: 0.55;
+		will-change: transform;
+		transform: translate(20vw, 20vh);
+	}
+
+	.aml-orb[data-orb='a'] {
+		background: radial-gradient(circle, rgba(61, 220, 132, 0.55), transparent 68%);
+		width: 48vmax;
+		height: 48vmax;
+	}
+
+	.aml-orb[data-orb='b'] {
+		background: radial-gradient(circle, rgba(91, 159, 255, 0.42), transparent 68%);
+		width: 38vmax;
+		height: 38vmax;
+		opacity: 0.45;
+	}
+
+	.aml-orb[data-orb='c'] {
+		background: radial-gradient(circle, rgba(255, 159, 67, 0.28), transparent 68%);
+		width: 34vmax;
+		height: 34vmax;
+		opacity: 0.4;
+	}
+
+	.aml-orb[data-orb='d'] {
+		background: radial-gradient(circle, rgba(167, 139, 250, 0.18), transparent 68%);
+		width: 30vmax;
+		height: 30vmax;
+		opacity: 0.35;
+	}
+
+	.aml-fixed-noise {
+		position: absolute;
+		inset: 0;
+		opacity: 0.3;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+		mix-blend-mode: soft-light;
+	}
+
+	.aml-hero {
+		position: relative;
+		isolation: isolate;
+		min-height: calc(100svh - var(--sl-nav-height, 4rem));
+		display: grid;
+		place-items: center;
+		overflow: clip;
+		width: 100%;
+		max-width: 100%;
+		padding: 4rem 1.5rem 5.5rem;
+		background: transparent;
+		box-sizing: border-box;
+	}
+
+	.aml-hero-parallax {
+		max-width: 42rem;
+		text-align: center;
+		--scroll: 0;
+		transform: translate3d(0, calc(var(--scroll) * -72px), 0) scale(calc(1 - var(--scroll) * 0.22));
+		opacity: calc(1 - var(--scroll) * 1.15);
+		filter: blur(calc(var(--scroll) * 6px));
+		will-change: transform, opacity, filter;
+	}
+
+	.aml-hero-inner {
+		animation: aml-rise 0.7s ease-out both;
+	}
+
+	.aml-kicker {
+		margin: 0 0 1rem;
+		font-size: 0.95rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #3ddc84 70%, white);
+	}
+
+	.aml-title {
+		margin: 0;
+		line-height: 0.95;
+	}
+
+	.aml-title-brand {
+		display: inline-block;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: clamp(4.5rem, 14vw, 8rem);
+		font-weight: 800;
+		letter-spacing: 0.06em;
+		background: linear-gradient(180deg, #fff 20%, #c7d2fe 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+		animation: aml-glow 3.5s ease-in-out infinite;
+	}
+
+	.aml-lead {
+		margin: 1.25rem auto 0;
+		max-width: 30rem;
+		font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+		line-height: 1.65;
+		color: color-mix(in srgb, var(--sl-color-gray-2) 90%, white);
+	}
+
+	.aml-cta {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.85rem;
+		margin-top: 2rem;
+	}
+
+	.aml-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 9.5rem;
+		padding: 0.85rem 1.35rem;
+		border-radius: 999px;
+		font-weight: 700;
+		text-decoration: none;
+		transition:
+			transform 0.15s ease,
+			background 0.15s ease,
+			box-shadow 0.15s ease;
+	}
+
+	.aml-btn:hover {
+		transform: translateY(-1px);
+	}
+
+	.aml-btn-primary {
+		color: #04140c;
+		background: linear-gradient(180deg, #5cf0a0, #3ddc84);
+		box-shadow: 0 10px 30px rgba(61, 220, 132, 0.28);
+	}
+
+	.aml-btn-ghost {
+		color: #e8eefc;
+		background: color-mix(in srgb, white 8%, transparent);
+		border: 1px solid color-mix(in srgb, white 18%, transparent);
+	}
+
+	.aml-btn-ghost:hover {
+		background: color-mix(in srgb, white 14%, transparent);
+	}
+
+	.aml-scroll-cue {
+		position: absolute;
+		bottom: 1.4rem;
+		left: 50%;
+		transform: translateX(-50%);
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.35rem;
+		color: color-mix(in srgb, white 55%, transparent);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		text-decoration: none;
+		text-transform: uppercase;
+		transition: opacity 0.2s ease;
+	}
+
+	.aml-scroll-arrow {
+		width: 0.7rem;
+		height: 0.7rem;
+		border-right: 2px solid currentColor;
+		border-bottom: 2px solid currentColor;
+		transform: rotate(45deg);
+		animation: aml-bounce 1.6s ease-in-out infinite;
+	}
+
+	.aml-pillars {
+		width: min(68rem, calc(100% - 2rem));
+		margin: -1.5rem auto 2rem;
+		padding: 1.35rem 1.5rem 1.5rem;
+		text-align: center;
+		border-top: 1px solid color-mix(in srgb, white 8%, transparent);
+		border-bottom: 1px solid color-mix(in srgb, white 8%, transparent);
+	}
+
+	.aml-pillars-label {
+		margin: 0 0 0.85rem;
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #3ddc84 70%, white);
+	}
+
+	.aml-pillars-list {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.55rem 0.35rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.aml-pillars-list li {
+		padding: 0.35rem 0.85rem;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: clamp(0.95rem, 2vw, 1.15rem);
+		font-weight: 700;
+		color: #e8eefc;
+	}
+
+	.aml-pillars-list li:not(:last-child)::after {
+		content: '·';
+		margin-left: 0.85rem;
+		color: color-mix(in srgb, #3ddc84 55%, transparent);
+		font-weight: 500;
+	}
+
+	.aml-origin {
+		width: min(42rem, calc(100% - 2.5rem));
+		margin: 0 auto 3.25rem;
+		text-align: center;
+	}
+
+	.aml-origin h2 {
+		margin: 0;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: clamp(1.55rem, 3.5vw, 2.15rem);
+		font-weight: 800;
+		line-height: 1.25;
+		color: #f8fafc;
+	}
+
+	.aml-origin > p:last-child {
+		margin: 1rem auto 0;
+		font-size: 1.05rem;
+		line-height: 1.75;
+		color: color-mix(in srgb, #cbd5e1 92%, white);
+	}
+
+	.aml-showcase {
+		position: relative;
+		width: 100%;
+		max-width: 100%;
+		padding: 3.5rem 1.25rem 5rem;
+		background: transparent;
+		box-sizing: border-box;
+		overflow-x: clip;
+	}
+
+	.aml-showcase-intro {
+		max-width: 42rem;
+		margin: 0 auto 3.5rem;
+		text-align: center;
+	}
+
+	.aml-showcase-kicker {
+		margin: 0 0 0.7rem;
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #3ddc84 75%, white);
+	}
+
+	.aml-showcase-intro h2,
+	.aml-playways-intro h2 {
+		margin: 0;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: clamp(1.7rem, 4vw, 2.5rem);
+		font-weight: 800;
+		line-height: 1.2;
+		color: #f8fafc;
+	}
+
+	.aml-showcase-lead {
+		margin: 0.9rem auto 0;
+		max-width: 36rem;
+		font-size: 1.05rem;
+		line-height: 1.7;
+		color: color-mix(in srgb, #cbd5e1 92%, white);
+	}
+
+	.aml-feature-row {
+		display: grid;
+		gap: 1.75rem;
+		align-items: center;
+		max-width: 68rem;
+		margin: 0 auto 4.5rem;
+	}
+
+	.aml-feature-copy h3 {
+		margin: 0.35rem 0 0.75rem;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: clamp(1.45rem, 3vw, 2rem);
+		font-weight: 800;
+		line-height: 1.25;
+		color: #f8fafc;
+	}
+
+	.aml-feature-copy > p {
+		margin: 0;
+		max-width: 34rem;
+		font-size: 1.05rem;
+		line-height: 1.7;
+		color: color-mix(in srgb, #cbd5e1 92%, white);
+	}
+
+	.aml-feature-eyebrow {
+		margin: 0;
+		font-size: 0.82rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		color: var(--feature-accent);
+	}
+
+	.aml-feature-points {
+		display: grid;
+		gap: 0.45rem;
+		margin: 1rem 0 0;
+		padding: 0;
+		list-style: none;
+		max-width: 34rem;
+	}
+
+	.aml-feature-points li {
+		position: relative;
+		padding-left: 1.1rem;
+		font-size: 0.95rem;
+		line-height: 1.5;
+		color: color-mix(in srgb, #e2e8f0 88%, white);
+	}
+
+	.aml-feature-points li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0.55em;
+		width: 0.45rem;
+		height: 0.45rem;
+		border-radius: 50%;
+		background: var(--feature-accent);
+		box-shadow: 0 0 10px color-mix(in srgb, var(--feature-accent) 55%, transparent);
+	}
+
+	.aml-feature-shot {
+		min-width: 0;
+	}
+
+	.aml-shot-frame {
+		margin: 0;
+		border-radius: 1rem;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, white 12%, transparent);
+		background: #0b1220;
+		box-shadow:
+			0 24px 60px rgba(0, 0, 0, 0.45),
+			0 0 0 1px color-mix(in srgb, var(--feature-accent) 18%, transparent);
+		transform: perspective(1200px) rotateY(-3deg) rotateX(1.5deg);
+		transition: transform 0.45s ease;
+	}
+
+	.aml-feature-row.reverse .aml-shot-frame {
+		transform: perspective(1200px) rotateY(3deg) rotateX(1.5deg);
+	}
+
+	.aml-feature-row.is-visible .aml-shot-frame {
+		transform: perspective(1200px) rotateY(0deg) rotateX(0deg);
+	}
+
+	.aml-shot-img {
+		display: block;
+		width: 100%;
+		height: auto;
+		vertical-align: middle;
+	}
+
+	.aml-playways {
+		max-width: 68rem;
+		margin: 1rem auto 4.5rem;
+		padding: 0 0.25rem;
+	}
+
+	.aml-playways-intro {
+		text-align: center;
+		margin-bottom: 1.75rem;
+	}
+
+	.aml-playways-grid {
+		display: grid;
+		gap: 1rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.aml-playways-grid li {
+		padding: 0.85rem;
+		border-radius: 1rem;
+		border: 1px solid color-mix(in srgb, white 9%, transparent);
+		background: color-mix(in srgb, white 3.5%, transparent);
+	}
+
+	.aml-playway-shot {
+		margin-bottom: 0.85rem;
+		border-radius: 0.75rem;
+		overflow: hidden;
+		border: 1px solid color-mix(in srgb, white 8%, transparent);
+		aspect-ratio: 16 / 10;
+		background: #0b1220;
+	}
+
+	.aml-playway-shot :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: top center;
+		display: block;
+	}
+
+	.aml-playways-grid strong {
+		display: block;
+		margin-bottom: 0.35rem;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: 1.05rem;
+		color: #f8fafc;
+	}
+
+	.aml-playways-grid p {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, #cbd5e1 92%, white);
+	}
+
+	.aml-community {
+		max-width: 36rem;
+		margin: 1rem auto 4rem;
+		text-align: center;
+		padding: 2rem 1rem;
+		border-radius: 1.25rem;
+		border: 1px solid color-mix(in srgb, #3ddc84 22%, transparent);
+		background:
+			radial-gradient(circle at 50% 0%, color-mix(in srgb, #3ddc84 14%, transparent), transparent 55%),
+			color-mix(in srgb, white 3%, transparent);
+	}
+
+	.aml-community h2 {
+		margin: 0;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: clamp(1.55rem, 3.5vw, 2.1rem);
+		font-weight: 800;
+		color: #f8fafc;
+	}
+
+	.aml-community > p {
+		margin: 0.75rem auto 0;
+		color: color-mix(in srgb, #cbd5e1 92%, white);
+		line-height: 1.65;
+	}
+
+	.aml-community-meta {
+		margin-top: 0.85rem !important;
+		font-size: 0.95rem;
+	}
+
+	.aml-community-meta code {
+		padding: 0.15rem 0.45rem;
+		border-radius: 0.4rem;
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: #9af0c2;
+		background: color-mix(in srgb, #3ddc84 12%, transparent);
+		border: 1px solid color-mix(in srgb, #3ddc84 22%, transparent);
+	}
+
+	.aml-finale {
+		max-width: 36rem;
+		margin: 1rem auto 0;
+		text-align: center;
+		padding: 2.5rem 1rem 0.5rem;
+	}
+
+	.aml-finale h2 {
+		margin: 0;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: clamp(1.7rem, 4vw, 2.4rem);
+		font-weight: 800;
+		color: #f8fafc;
+	}
+
+	.aml-finale p {
+		margin: 0.85rem auto 0;
+		color: color-mix(in srgb, #cbd5e1 90%, white);
+		line-height: 1.65;
+	}
+
+	.aml-reveal {
+		opacity: 0;
+		transform: translateY(28px);
+		transition:
+			opacity 0.7s ease,
+			transform 0.7s ease;
+	}
+
+	.aml-reveal.is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	@media (min-width: 40rem) {
+		.aml-playways-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	@media (min-width: 56rem) {
+		.aml-feature-row {
+			grid-template-columns: 1fr 1.2fr;
+			gap: 2.5rem;
+		}
+
+		.aml-feature-row.reverse {
+			grid-template-columns: 1.2fr 1fr;
+		}
+
+		.aml-feature-row.reverse .aml-feature-copy {
+			order: 2;
+		}
+
+		.aml-feature-row.reverse .aml-feature-shot {
+			order: 1;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.aml-title-brand,
+		.aml-scroll-arrow,
+		.aml-hero-inner {
+			animation: none;
+		}
+
+		.aml-hero-parallax {
+			transform: none;
+			opacity: 1;
+			filter: none;
+		}
+
+		.aml-reveal {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
+
+		.aml-shot-frame,
+		.aml-feature-row.reverse .aml-shot-frame,
+		.aml-feature-row.is-visible .aml-shot-frame {
+			transform: none;
+		}
+
+		.aml-orb {
+			transition: none !important;
+		}
+	}
+
+	@keyframes aml-rise {
+		from {
+			opacity: 0;
+			transform: translateY(18px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@keyframes aml-glow {
+		0%,
+		100% {
+			filter: drop-shadow(0 0 0 rgba(61, 220, 132, 0));
+		}
+		50% {
+			filter: drop-shadow(0 0 18px rgba(61, 220, 132, 0.28));
+		}
+	}
+
+	@keyframes aml-bounce {
+		0%,
+		100% {
+			transform: translateY(0) rotate(45deg);
+		}
+		50% {
+			transform: translateY(5px) rotate(45deg);
+		}
+	}
+</style>

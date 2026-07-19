@@ -1,0 +1,34 @@
+---
+import Default from '@astrojs/starlight/components/Header.astro';
+import GroupJumpDialog from './GroupJumpDialog.astro';
+---
+
+<Default>
+	<slot />
+</Default>
+
+<GroupJumpDialog />
+
+<script>
+	const header = document.querySelector('header.header');
+	if (header instanceof HTMLElement) {
+		let ticking = false;
+
+		const update = () => {
+			ticking = false;
+			header.classList.toggle('is-scrolled', window.scrollY > 12);
+		};
+
+		update();
+		window.addEventListener(
+			'scroll',
+			() => {
+				if (!ticking) {
+					ticking = true;
+					window.requestAnimationFrame(update);
+				}
+			},
+			{ passive: true },
+		);
+	}
+</script>

@@ -1,0 +1,148 @@
+---
+const GROUP_URL = 'https://qm.qq.com/q/Jn82YQhraK';
+const GROUP_ID = '808169040';
+---
+
+<dialog class="aml-group-dialog" data-aml-group-dialog aria-labelledby="aml-group-dialog-title">
+	<div class="aml-group-dialog-inner">
+		<p class="aml-group-dialog-kicker">即将离开本站</p>
+		<h2 id="aml-group-dialog-title">跳转到 QQ 加群</h2>
+		<p>将打开 QQ 加群页面（群号 {GROUP_ID}）。是否继续？</p>
+		<div class="aml-group-dialog-actions">
+			<button type="button" class="aml-group-dialog-cancel" data-aml-group-cancel>
+				取消
+			</button>
+			<button type="button" class="aml-group-dialog-confirm" data-aml-group-confirm>
+				继续跳转
+			</button>
+		</div>
+	</div>
+</dialog>
+
+<script>
+	const GROUP_URL = 'https://qm.qq.com/q/Jn82YQhraK';
+
+	const dialog = document.querySelector('[data-aml-group-dialog]');
+	const cancelBtn = document.querySelector('[data-aml-group-cancel]');
+	const confirmBtn = document.querySelector('[data-aml-group-confirm]');
+
+	if (dialog instanceof HTMLDialogElement && cancelBtn && confirmBtn) {
+		let pendingUrl = GROUP_URL;
+
+		const openDialog = (url: string) => {
+			pendingUrl = url;
+			dialog.showModal();
+		};
+
+		const closeDialog = () => dialog.close();
+
+		cancelBtn.addEventListener('click', closeDialog);
+		confirmBtn.addEventListener('click', () => {
+			closeDialog();
+			window.open(pendingUrl, '_blank', 'noopener,noreferrer');
+		});
+
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) closeDialog();
+		});
+
+		document.addEventListener(
+			'click',
+			(event) => {
+				const target = event.target;
+				if (!(target instanceof Element)) return;
+				const link = target.closest('a[href*="qm.qq.com"], a[data-aml-qq-group]');
+				if (!(link instanceof HTMLAnchorElement)) return;
+				event.preventDefault();
+				openDialog(link.href || GROUP_URL);
+			},
+			true,
+		);
+	}
+</script>
+
+<style is:global>
+	.aml-group-dialog {
+		margin: auto;
+		padding: 0;
+		border: 1px solid color-mix(in srgb, #3ddc84 28%, transparent);
+		border-radius: 1.1rem;
+		background: linear-gradient(180deg, #121a2b, #0b1220);
+		color: #e8eefc;
+		box-shadow:
+			0 24px 60px rgba(0, 0, 0, 0.55),
+			0 0 0 1px color-mix(in srgb, #3ddc84 12%, transparent);
+		width: min(22rem, calc(100vw - 2rem));
+	}
+
+	.aml-group-dialog::backdrop {
+		background: color-mix(in srgb, #020617 62%, transparent);
+		backdrop-filter: blur(6px);
+	}
+
+	.aml-group-dialog-inner {
+		padding: 1.35rem 1.4rem 1.25rem;
+	}
+
+	.aml-group-dialog-kicker {
+		margin: 0 0 0.45rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #3ddc84 75%, white);
+	}
+
+	.aml-group-dialog-inner h2 {
+		margin: 0;
+		font-family: Outfit, 'Noto Sans SC', sans-serif;
+		font-size: 1.25rem;
+		font-weight: 800;
+		color: #f8fafc;
+	}
+
+	.aml-group-dialog-inner > p {
+		margin: 0.7rem 0 0;
+		font-size: 0.95rem;
+		line-height: 1.6;
+		color: color-mix(in srgb, #cbd5e1 92%, white);
+	}
+
+	.aml-group-dialog-actions {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.65rem;
+		margin-top: 1.25rem;
+	}
+
+	.aml-group-dialog-cancel,
+	.aml-group-dialog-confirm {
+		appearance: none;
+		border: 0;
+		cursor: pointer;
+		border-radius: 999px;
+		padding: 0.55rem 1rem;
+		font-size: 0.88rem;
+		font-weight: 700;
+		font-family: inherit;
+	}
+
+	.aml-group-dialog-cancel {
+		color: #e8eefc;
+		background: color-mix(in srgb, white 8%, transparent);
+		border: 1px solid color-mix(in srgb, white 14%, transparent);
+	}
+
+	.aml-group-dialog-cancel:hover {
+		background: color-mix(in srgb, white 14%, transparent);
+	}
+
+	.aml-group-dialog-confirm {
+		color: #04140c;
+		background: linear-gradient(180deg, #5cf0a0, #3ddc84);
+	}
+
+	.aml-group-dialog-confirm:hover {
+		filter: brightness(1.05);
+	}
+</style>

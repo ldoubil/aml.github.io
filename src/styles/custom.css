@@ -1,0 +1,236 @@
+:root {
+	--sl-font: 'Noto Sans SC', system-ui, sans-serif;
+	--sl-font-system: 'Noto Sans SC', system-ui, sans-serif;
+	--sl-color-accent-low: #163528;
+	--sl-color-accent: #3ddc84;
+	--sl-color-accent-high: #9af0c2;
+	--aml-surface: #0b1220;
+}
+
+html {
+	font-family: var(--sl-font);
+	background: #0b1220;
+	overflow-x: clip;
+	max-width: 100%;
+}
+
+body {
+	background: transparent;
+	overflow-x: clip;
+	max-width: 100%;
+}
+
+/* Homepage: hide default splash chrome extras */
+[data-has-hero] .content-panel:has(.aml-hero) {
+	padding: 0;
+	border: none;
+	background: transparent;
+}
+
+[data-has-hero] main .content-panel + .content-panel {
+	display: none;
+}
+
+[data-has-hero] .hero {
+	display: none;
+}
+
+[data-has-hero] .sl-markdown-content {
+	max-width: none;
+}
+
+/* Keep ambient fixed lights continuous — no dark overlays on homepage shells */
+[data-has-hero] main,
+[data-has-hero] .main-frame,
+[data-has-hero] .content-panel,
+[data-has-hero] .sl-container,
+[data-has-hero] starlight-menu-button ~ * {
+	background: transparent !important;
+	box-shadow: none;
+}
+
+[data-has-hero] header.header {
+	background: transparent;
+	backdrop-filter: none;
+	border-bottom-color: color-mix(in srgb, white 8%, transparent);
+}
+
+/* Top nav: frost when scrolled */
+header.header {
+	box-sizing: border-box;
+	max-width: 100%;
+	transition:
+		background-color 0.25s ease,
+		backdrop-filter 0.25s ease,
+		border-color 0.25s ease,
+		box-shadow 0.25s ease;
+}
+
+header.header.is-scrolled {
+	background: color-mix(in srgb, #0b1220 72%, transparent);
+	backdrop-filter: blur(14px) saturate(1.2);
+	-webkit-backdrop-filter: blur(14px) saturate(1.2);
+	border-bottom-color: color-mix(in srgb, white 10%, transparent);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+[data-has-hero] header.header.is-scrolled {
+	background: color-mix(in srgb, #0b1220 68%, transparent);
+	backdrop-filter: blur(14px) saturate(1.2);
+	-webkit-backdrop-filter: blur(14px) saturate(1.2);
+}
+
+/* Prevent full-bleed / header chrome from causing sideways scroll */
+.page,
+.main-frame,
+.content-panel,
+.sl-container {
+	max-width: 100%;
+}
+
+.page,
+.main-frame {
+	overflow-x: clip;
+}
+
+header.header .site-title img,
+header.header .site-title picture img {
+	height: 2.35rem;
+	width: auto;
+	max-height: none;
+	border-radius: 0.45rem;
+}
+
+@media (min-width: 50rem) {
+	header.header .site-title img,
+	header.header .site-title picture img {
+		height: 2.65rem;
+	}
+}
+
+
+/* Search trigger — match AML pill nav */
+site-search button[data-open-modal] {
+	gap: 0.45rem;
+	border-radius: 999px !important;
+	border: 1px solid color-mix(in srgb, white 10%, transparent) !important;
+	background: color-mix(in srgb, white 6%, transparent) !important;
+	color: var(--sl-color-gray-2) !important;
+	height: 2.15rem;
+	padding-inline: 0.75rem 0.45rem !important;
+	transition:
+		border-color 0.15s ease,
+		background 0.15s ease,
+		color 0.15s ease,
+		box-shadow 0.15s ease;
+}
+
+site-search button[data-open-modal]:hover {
+	border-color: color-mix(in srgb, #3ddc84 45%, transparent) !important;
+	background: color-mix(in srgb, #3ddc84 10%, transparent) !important;
+	color: #e8eefc !important;
+	box-shadow: 0 0 0 1px color-mix(in srgb, #3ddc84 18%, transparent);
+}
+
+site-search button[data-open-modal]:focus-visible {
+	outline: 2px solid #3ddc84;
+	outline-offset: 2px;
+}
+
+site-search button[data-open-modal] svg {
+	color: #3ddc84;
+	opacity: 0.95;
+}
+
+site-search button[data-open-modal] > span[aria-hidden='true'] {
+	font-size: 0.82rem;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+
+site-search button[data-open-modal] > kbd {
+	border-radius: 999px;
+	background: color-mix(in srgb, #0b1220 70%, transparent);
+	border: 1px solid color-mix(in srgb, white 10%, transparent);
+	color: color-mix(in srgb, white 55%, transparent);
+	font-size: 0.68rem;
+	padding-inline: 0.4rem;
+	height: 1.35rem;
+	align-items: center;
+}
+
+@media (min-width: 50rem) {
+	site-search button[data-open-modal] {
+		width: auto;
+		min-width: 11.5rem;
+		max-width: 16rem;
+	}
+}
+
+/* Search dialog accent */
+#starlight__search {
+	--pagefind-ui-primary: #3ddc84;
+	--pagefind-ui-border: color-mix(in srgb, white 12%, transparent);
+}
+
+site-search dialog {
+	border-radius: 1rem !important;
+	border-color: color-mix(in srgb, #3ddc84 28%, transparent) !important;
+	background: linear-gradient(180deg, #121a2b, #0b1220) !important;
+	box-shadow:
+		0 24px 60px rgba(0, 0, 0, 0.55),
+		0 0 0 1px color-mix(in srgb, #3ddc84 12%, transparent) !important;
+}
+
+#starlight__search .pagefind-ui__search-input {
+	border-radius: 999px !important;
+}
+
+.aml-download-card {
+	display: flex;
+	flex-direction: column;
+	gap: 0.85rem;
+	padding: 1.35rem 1.4rem;
+	border-radius: 1.1rem;
+	background: linear-gradient(160deg, rgba(61, 220, 132, 0.12), rgba(17, 24, 39, 0.4));
+	border: 1px solid color-mix(in srgb, #3ddc84 28%, transparent);
+	margin-block: 1rem 1.5rem;
+}
+
+.aml-download-card strong {
+	font-size: 1.15rem;
+}
+
+.aml-version-list {
+	display: grid;
+	gap: 0.85rem;
+	margin-block: 1rem 2rem;
+}
+
+.aml-version-item {
+	display: grid;
+	gap: 0.35rem;
+	padding: 1rem 1.15rem;
+	border-radius: 0.9rem;
+	background: color-mix(in srgb, var(--sl-color-gray-6) 75%, transparent);
+	border: 1px solid color-mix(in srgb, white 7%, transparent);
+}
+
+.aml-version-item .meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 0.85rem;
+	font-size: 0.88rem;
+	color: var(--sl-color-gray-3);
+}
+
+.aml-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.15rem 0.55rem;
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	background: color-mix(in srgb, #3ddc84 18%, transparent);
+	color: #9af0c2;
+}
