@@ -6,10 +6,17 @@ const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const links = [
 	{ href: '/', label: '首页', icon: 'home' },
 	{
+		href: 'https://github.com/AstralNext/AML/releases/latest',
+		label: '下载',
+		icon: 'download',
+		external: true,
+	},
+	{
 		href: 'https://qm.qq.com/q/CQmQFf9RyC',
-		label: '加群测试',
+		label: '交流群',
 		icon: 'group',
 		external: true,
+		qq: true,
 	},
 	{ href: '/guides/getting-started/', label: '快速开始', icon: 'docs' },
 ];
@@ -29,7 +36,9 @@ function isCurrent(href: string) {
 				href={link.href}
 				class:list={['aml-topnav-link', { active: isCurrent(link.href) }]}
 				aria-current={isCurrent(link.href) ? 'page' : undefined}
-				data-aml-qq-group={link.external ? '' : undefined}
+				target={link.external ? '_blank' : undefined}
+				rel={link.external ? 'noopener noreferrer' : undefined}
+				data-aml-qq-group={'qq' in link && link.qq ? '' : undefined}
 			>
 				<span class="aml-topnav-icon" data-icon={link.icon} aria-hidden="true" />
 				<span class="aml-topnav-label">{link.label}</span>

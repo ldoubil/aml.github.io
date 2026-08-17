@@ -4,7 +4,7 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://aml-wiki.example.com',
+	site: 'https://aml.astral.fan',
 	integrations: [
 		starlight({
 			title: 'AML',
@@ -25,7 +25,7 @@ export default defineConfig({
 				{
 					icon: 'github',
 					label: 'GitHub',
-					href: 'https://github.com/ldoubil/AML',
+					href: 'https://github.com/AstralNext/AML',
 				},
 			],
 			customCss: ['./src/styles/custom.css'],
